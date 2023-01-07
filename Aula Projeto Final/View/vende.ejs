@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Venda</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">DDV</a>
+ 
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+ 
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/cliente">Cliente</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/funcionario">Funcionario</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/instrumento">Instrumento</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/vende">Vendas</a>
+        </li>        
+      </ul>
+    </div>
+  </nav>
+<div class="jumbotron text-center">
+  <h1>Sinfônia Instrumental</h1>
+  <p>A loja de instrumentos musicais que toca as notas da sua vida</p>
+</div>
+
+<div class="container">
+  
+    <h1><center>Vendas</center></h1>
+    <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalCadastrar">
+    Cadastrar Venda
+  </button>
+  
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Id Cliente</th>
+            <th>Id Funcionário</th>
+            <th>Id Instrumento</th>
+            <th>Data Compra</th>
+            <th>Forma Pagamento</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
+        
+        <%
+        for(var i = 0; i < data.length; i++){
+          
+        %>
+        
+          <tr>
+              <td><%=data[i].ID%></td>
+              <td><%=data[i].ID_CLIENTE%></td>
+              <td><%=data[i].ID_FUNCIONARIO%></td>
+              <td><%=data[i].ID_INSTRUMENTO%></td>
+              <td><%=data[i].DATA_COMPRA%></td>
+              <td><%=data[i].FORMA_PAGAMENTO%></td>
+              <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAlterar">
+                Editar
+              </button>
+              </td>
+              <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalDeletar" data-id="<%=data[i].ID%>" data-nome="<%=data[i].NOME%>">
+                Deletar
+              </button> 
+              </td>
+          </tr>
+        <%
+            }
+        %> 
+           
+    </table>
+ 
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModalCadastrar">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Nova Venda</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="/vende/cadastrar" method="post">
+                <div class="form-group">
+                  <label for="Id_cliente">Id Cliente</label>
+                  <input type="text" class="form-control" placeholder="Informe o id do cliente" id="id_cliente" name="ID_CLIENTE">
+                </div>
+                <div class="form-group">
+                    <label for="Id_funcionario">Id Funcionário</label>
+                    <input type="text" class="form-control" placeholder="Informe o id do funcionario" id="id_funcionario" name="ID_FUNCIONARIO">
+                  </div>
+                  <div class="form-group">
+                    <label for="Id_instrumento">Id Instrumento</label>
+                    <input type="text" class="form-control" placeholder="Informe o id do instrumento" id="id_instrumento" name="ID_INSTRUMENTO">
+                  </div>
+                  <div class="form-group">
+                    <label for="data_compra">Data Compra</label>
+                    <input type="date" class="form-control" placeholder="Informe a data de compra" id="data_compra" name="DATA_COMPRA">
+                  </div>
+                  <div class="form-group">
+                    <label for="forma_pagamento">Forma pagamento</label>
+                    <input type="text" class="form-control" placeholder="Informe a forma de pagamento" id="forma_pagamento" name="FORMA_PAGAMENTO">
+                  </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </form>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="myModalAlterar">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Editar Venda</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="/vende/alterar" method="post">
+              <div class="form-group">
+                <label for="Id_cliente">Id</label>
+                <input type="text" class="form-control" placeholder="Informe o id" id="id" name="ID">
+              </div>
+              <div class="form-group">
+                <label for="Id_cliente">Id Cliente</label>
+                <input type="text" class="form-control" placeholder="Informe o id do cliente" id="id_cliente" name="ID_CLIENTE">
+              </div>
+              <div class="form-group">
+                  <label for="Id_funcionario">Id Funcionário</label>
+                  <input type="text" class="form-control" placeholder="Informe o id do funcionario" id="id_funcionario" name="ID_FUNCIONARIO">
+                </div>
+                <div class="form-group">
+                  <label for="Id_instrumento">Id Instrumento</label>
+                  <input type="text" class="form-control" placeholder="Informe o id do instrumento" id="id_instrumento" name="ID_INSTRUMENTO">
+                </div>
+                <div class="form-group">
+                  <label for="data_compra">Data Compra</label>
+                  <input type="date" class="form-control" placeholder="Informe a data de compra" id="data_compra" name="DATA_COMPRA">
+                </div>
+                <div class="form-group">
+                  <label for="forma_pagamento">Forma pagamento</label>
+                  <input type="text" class="form-control" placeholder="Informe a forma de pagamento" id="forma_pagamento" name="FORMA_PAGAMENTO">
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+              </form>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="myModalDeletar">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Deletar Venda</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="/vende/deletar" method="post">
+          <input type="hidden" name="id" id="recipent-id">
+          <div class="form-group">
+            <label for="id_cliente">Id Cliente</label>
+            <input type="text" class="form-control" id="recipent-nome" name="ID_CLIENTE" readonly>
+          </div>        
+         
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#myModalDeletar').on('show.bs.modal', function(event){
+    var button = $(event.relatedTarget)
+    var recipentid = button.data('id')
+    var recipentnome = button.data('ID_CLIENTE')
+
+    var modal = $(this) 
+    modal.find('#recipent-id').val(recipentid)
+    modal.find('#recipent-nome').val(recipentnome)
+  })
+</script>
+
+</body>
+</html>
